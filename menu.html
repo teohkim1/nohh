@@ -1,0 +1,179 @@
+﻿<!-- menu.html -->
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Menu | The Plastic Dining</title>
+
+    <!-- Pretendard Medium (본문) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preload"
+          href="https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2"
+          as="font" type="font/woff2" crossorigin>
+    <style>
+        @font-face {
+            font-family: "Pretendard-500";
+            src: url("https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2") format("woff2");
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        html, body {
+            font-family: "Pretendard-500",Pretendard,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR","Malgun Gothic",sans-serif;
+            font-weight: 500;
+        }
+    </style>
+
+    <!-- 영어 타이틀 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+
+
+
+    <main class="menu-wrap">
+        <!-- body 맨 위에 추가 (기존 logo-float/icons-float 대체) -->
+        <div class="top-rail">
+            <a class="logo-float" href="index.html">
+                <img src="img/logo/wordmark.png" alt="The Plastic Dining">
+            </a>
+
+            <nav class="icons-float" aria-label="site nav">
+                <a href="index.html" title="Home" aria-label="Home"><img src="img/icon/home.png" alt=""></a>
+                <a href="menu.html" title="Menu" aria-label="Menu"><img src="img/icon/menu.png" alt=""></a>
+                <a href="https://instagram.com/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+                    <img src="img/icon/instagram.png" alt="">
+                </a>
+            </nav>
+        </div>
+
+
+        <!-- SALAD -->
+        <section class="menu-section">
+            <h2 class="section-title en">SALAD</h2>
+            <div class="menu-grid">
+                <!-- 1 -->
+                <article class="menu-card">
+                    <a class="thumb" href="detail/salad-1.html">
+                        <img src="img/menu/salad_salmon.png" alt="포장찌꺼기 연어 샐러드">
+                    </a>
+                    <div class="meta">
+                        <p class="en small">Packaging Waste Salmon Salad</p>
+                        <h3 class="name">포장찌꺼기 연어 샐러드</h3>
+                        <p class="desc">신선한 연어와 아삭한 캔디 포장지가 어우러진<br>상큼한 연어 샐러드</p>
+                        <div class="price">110,000</div>
+                    </div>
+                </article>
+                <!-- 2 -->
+                <article class="menu-card">
+                    <a class="thumb" href="detail/salad-2.html">
+                        <img src="img/menu/salad_gardenbag.png" alt="쓰레기봉지 가든 샐러드">
+                    </a>
+                    <div class="meta">
+                        <p class="en small">Waste Bag Garden Salad</p>
+                        <h3 class="name">쓰레기봉지 가든 샐러드</h3>
+                        <p class="desc">쓰레기봉지 위에 채소를 올려 바삭한 식감을 살린 샐러드</p>
+                        <div class="price">98,000</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- PASTA -->
+        <section class="menu-section">
+            <h2 class="section-title en">PASTA</h2>
+            <div class="menu-grid">
+                <article class="menu-card">
+                    <a class="thumb" href="detail/pasta-1.html">
+                        <img src="img/menu/pasta_straw_vongole.png" alt="빨대 봉골레 파스타">
+                    </a>
+                    <div class="meta">
+                        <p class="en small">Straw Vongole Pasta</p>
+                        <h3 class="name">빨대 봉골레 파스타</h3>
+                        <p class="desc">길고 얇은 쫄깃한 빨대 면과 올리브 오일의 풍미가<br>어우러진 봉골레 파스타</p>
+                        <div class="price">165,000</div>
+                    </div>
+                </article>
+
+                <article class="menu-card">
+                    <a class="thumb" href="detail/pasta-2.html">
+                        <img src="img/menu/pasta_tomato_straw_basil.png" alt="토맛토 빨대 바질 파스타">
+                    </a>
+                    <div class="meta">
+                        <p class="en small">Tomato Straw Basil Pasta</p>
+                        <h3 class="name">토맛토 빨대 바질 파스타</h3>
+                        <p class="desc">플라스틱 빨대가 바질 향과 어우러져 신선한 풍미를<br>전하는 토마토 파스타</p>
+                        <div class="price">158,000</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- PIZZA -->
+        <section class="menu-section">
+            <h2 class="section-title en">PIZZA</h2>
+            <div class="menu-grid">
+                <article class="menu-card">
+                    <a class="thumb" href="detail/pizza-1.html">
+                        <img src="img/menu/pizza_cap_pepperoni.png" alt="폐뚜껑 페퍼로니 피자">
+                    </a>
+                    <div class="meta">
+                        <p class="en small">Plastic Bottle Cap Pepperoni</p>
+                        <h3 class="name">폐뚜껑 페퍼로니 피자</h3>
+                        <p class="desc">바삭한 도우 위에 병뚜껑을 올려 화덕에 구운 페퍼로니</p>
+                        <div class="price">218,000</div>
+                    </div>
+                </article>
+
+                <article class="menu-card">
+                    <a class="thumb" href="detail/pizza-2.html">
+                        <img src="img/menu/pizza_cap_combo.png" alt="병뚜껑 루꼴라 콤비네이션 피자">
+                    </a>
+                    <div class="meta">
+                        <p class="en small">Plastic Bottle Cap Combination</p>
+                        <h3 class="name">병뚜껑 루꼴라 콤비네이션 피자</h3>
+                        <p class="desc">신선한 루꼴라와 컬러풀한 병뚜껑의 콤비네이션</p>
+                        <div class="price">234,000</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- STEAK -->
+        <section class="menu-section">
+            <h2 class="section-title en">STEAK</h2>
+            <div class="menu-grid">
+                <article class="menu-card">
+                    <a class="thumb" href="detail/steak-1.html">
+                        <img src="img/menu/steak_landfill_cube.png" alt="매립지 불향 큐브 스테이크">
+                    </a>
+                    <div class="meta">
+                        <p class="en small">Landfill Incensed Cube Steak</p>
+                        <h3 class="name">매립지 불향 큐브 스테이크</h3>
+                        <p class="desc">쓰레기 매립지의 불향이 함께 어우러지는 플라스틱 용기<br>큐브 스테이크</p>
+                        <div class="price">298,000</div>
+                    </div>
+                </article>
+
+                <article class="menu-card">
+                    <a class="thumb" href="detail/steak-2.html">
+                        <img src="img/menu/steak_trashcan_aged.png" alt="배달 숙성 용기 스테이크">
+                    </a>
+                    <div class="meta">
+                        <p class="en small">Trash Can Aged Steak</p>
+                        <h3 class="name">배달 숙성 용기 스테이크</h3>
+                        <p class="desc">쓰레기통에서 숙성된 배달 용기를 사용하여<br>직접 구운 스테이크</p>
+                        <div class="price">328,000</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

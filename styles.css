@@ -1,0 +1,211 @@
+﻿/* 기본 */
+* {
+    box-sizing: border-box
+}
+
+:root {
+    --bg: #f2efe9; /* 좌측 배경 */
+    --ink: #b6403e; /* 포인트 레드(타이틀/보더) */
+    --text: #222;
+    --shadow: 0 10px 30px rgba(0,0,0,.12);
+    --max: 1280px;
+}
+
+html, body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    font-family: pretendard,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color: var(--text);
+    background: #fff
+}
+
+/* 상단 네비(우측 상단) */
+.topnav {
+    position: fixed;
+    right: 28px;
+    top: 24px;
+    display: flex;
+    gap: 18px;
+    z-index: 10;
+}
+
+    .topnav a {
+        color: #fff;
+        opacity: .95;
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,.35))
+    }
+
+        .topnav a:hover {
+            opacity: 1
+        }
+
+/* 레이아웃 */
+.wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+}
+
+.panel {
+    position: relative
+}
+
+.left {
+    background: var(--bg);
+    padding: 56px 42px 28px 72px;
+    border-right: 1px solid #e3ddd5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.right {
+    position: relative;
+    background: #000
+}
+
+/* 좌측 타이포 */
+.brand {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    color: var(--ink);
+    margin: 0
+}
+
+    .brand .est, .brand .year {
+        font-family: Georgia,serif;
+        letter-spacing: .1em;
+        font-size: 14px;
+        margin-top: 8px
+    }
+
+    .brand .title {
+        font-family: Georgia,serif;
+        font-size: 44px;
+        line-height: 1.05
+    }
+
+    .brand strong {
+        font-size: 60px;
+        letter-spacing: .06em
+    }
+
+.copy {
+    margin-top: 12px;
+    line-height: 1.85
+}
+
+    .copy p {
+        margin: 16px 0
+    }
+
+.foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    color: var(--ink);
+    border-top: 1px solid var(--ink);
+    padding-top: 12px;
+    font-size: 14px
+}
+
+/* 우측 이미지 슬라이드 (CSS 전환: 5장 × 5초 = 25초 주기) */
+.slides {
+    position: absolute;
+    inset: 0;
+    overflow: hidden
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: contrast(1.05) saturate(1.02);
+        box-shadow: var(--shadow);
+    }
+
+/* "딱딱" 전환만: steps(1) 사용 (부드러운 페이드는 나중에 JS로) */
+@keyframes show {
+    0% {
+        opacity: 1
+    }
+
+    20% {
+        opacity: 1
+    }
+
+    20.01% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+.slide:nth-child(1) {
+    animation: show 25s steps(1,end) infinite;
+    animation-delay: 0s;
+}
+
+.slide:nth-child(2) {
+    animation: show 25s steps(1,end) infinite;
+    animation-delay: 5s;
+}
+
+.slide:nth-child(3) {
+    animation: show 25s steps(1,end) infinite;
+    animation-delay: 10s;
+}
+
+.slide:nth-child(4) {
+    animation: show 25s steps(1,end) infinite;
+    animation-delay: 15s;
+}
+
+.slide:nth-child(5) {
+    animation: show 25s steps(1,end) infinite;
+    animation-delay: 20s;
+}
+
+/* 반응형 */
+@media (max-width: 980px) {
+    .wrap {
+        grid-template-columns: 1fr
+    }
+
+    .topnav a {
+        color: #111;
+        filter: none
+    }
+
+    .right {
+        order: -1;
+        height: 52vh
+    }
+
+    .left {
+        padding: 36px 22px
+    }
+
+    .brand .title {
+        font-size: 36px
+    }
+
+    .brand strong {
+        font-size: 48px
+    }
+}

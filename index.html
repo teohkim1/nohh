@@ -1,0 +1,85 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Plastic Dining</title>
+    <!-- Pretendard Medium (CDN) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preload"
+          href="https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2"
+          as="font" type="font/woff2" crossorigin>
+
+    <style>
+        /* CDN woff2를 직접 @font-face로 선언 */
+        @font-face {
+            font-family: "Pretendard-500";
+            src: url("https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2") format("woff2");
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        html, body {
+            font-family: "Pretendard-500", Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
+            font-weight: 500;
+        }
+    </style>
+
+    <!-- 푸터에 쓸 보조 폰트들 -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+
+    <!-- 메인 스타일 -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <!-- 우측 상단 아이콘 -->
+    <nav class="topnav" aria-label="site nav">
+        <a href="/" aria-label="Home" title="Home"><img src="img/icon/home.png" alt="홈"></a>
+        <a href="/menu.html" aria-label="Menu" title="Menu"><img src="img/icon/menu.png" alt="메뉴"></a>
+        <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+            <img src="img/icon/instagram.png" alt="인스타그램">
+        </a>
+    </nav>
+
+    <!-- 본문 2분할 + 하단 전체 푸터 -->
+    <main class="wrap">
+        <!-- 좌측 패널 -->
+        <section class="panel left">
+            <div class="logos">
+                <img class="wordmark" src="img/logo/wordmark.png" alt="The Plastic Dining">
+            </div>
+
+            <div class="copy">
+                <p>2050년, The Plastic Dining은 지구를 뒤덮은 플라스틱으로<br>놀라운 미식의 세계를 창조했습니다.</p>
+                
+                <p>일회용 플라스틱이 가진 고유의 풍미와 식감을 살려<br>지금껏 경험하지 못한 새로운 차원의 요리를 선보입니다.</p>
+                
+                <p>The Plastic Dining에서 인류의 역사가 만들어낸 가장 특별한 만찬을 즐겨보세요!</p>
+            </div>
+
+            <div class="mascot">
+                <img src="img/logo/mark.png" alt="Mascot">
+            </div>
+        </section>
+
+        <!-- 우측 대형 이미지(부드러운 크로스페이드) -->
+        <section class="panel right">
+            <div class="slides">
+                <figure class="slide"><img src="img/hero/1.png" alt="대표 메뉴 1"></figure>
+                <figure class="slide"><img src="img/hero/2.png" alt="대표 메뉴 2"></figure>
+            </div>
+        </section>
+
+        <!-- 하단 전체 푸터: 좌/중/우 -->
+        <footer class="site-foot">
+            <span>© 2050 The Plastic Dining</span>
+            <span>314 Sangdang-ro, Cheongwon-gu, Cheongju-si, Chungcheongbuk-do</span>
+            <span>Mon–Sun: 8am–7am</span>
+        </footer>
+    </main>
+</body>
+</html>
