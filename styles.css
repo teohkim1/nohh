@@ -7,7 +7,7 @@
     --bg: #F7F6F2;
     --ink: #b6403e;
     --text: #222;
-    --max: 1230px; /* 전체 최대 가로폭 */
+    --max: 1300px; /* 전체 최대 가로폭 */
     --left: 50%; /* 왼쪽 패널 비율 */
 }
 
@@ -257,7 +257,7 @@ body {
 
 /* 중앙 컨테이너 */
 .menu-wrap {
-    width: min(100vw, 1230px);
+    width: min(100vw, 1300px);
     margin: 0 auto;
     padding: 20px 20px 80px; /* 상단바가 없으므로 20px이면 충분 */
     background: #F7F6F2;
@@ -395,3 +395,4 @@ body {
         aspect-ratio: 4 / 3; /* 1/1, 3/2 등 원하는 비로 변경 */
         object-fit: cover;
     }
+
