@@ -1,4 +1,3 @@
-<!-- menu.html -->
 <!doctype html>
 <html lang="ko">
 <head>
@@ -6,42 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Menu | The Plastic Dining</title>
 
-  <!-- Pretendard Medium (본문) -->
+  <!-- Pretendard Medium -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preload"
-        href="https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2"
-        as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2" as="font" type="font/woff2" crossorigin>
   <style>
     @font-face{
       font-family:"Pretendard-500";
       src:url("https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2") format("woff2");
       font-weight:500; font-style:normal; font-display:swap;
     }
-    html,body{
-      font-family:"Pretendard-500", Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
-      font-weight:500;
-    }
+    html,body{ font-family:"Pretendard-500",Pretendard,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR","Malgun Gothic",sans-serif; font-weight:500; }
   </style>
 
   <!-- 영어 타이틀 폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
-  <!-- 메인 CSS (캐시버스터 포함) -->
-  <link rel="stylesheet" href="./styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="menu-wrap">
-    <!-- 상단 로고 / 아이콘 -->
+    <!-- 상단 로고/아이콘 -->
     <div class="top-rail">
-      <a class="logo-float" href="./">
-        <img src="img/logo/wordmark.png" alt="The Plastic Dining">
-      </a>
-
+      <a class="logo-float" href="index.html"><img src="img/logo/wordmark.png" alt="The Plastic Dining"></a>
       <nav class="icons-float" aria-label="site nav">
-        <a href="./" title="Home" aria-label="Home"><img src="img/icon/home.png" alt="Home"></a>
-        <a href="./menu.html" title="Menu" aria-label="Menu"><img src="img/icon/menu.png" alt="Menu"></a>
-        <a href="https://instagram.com/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
-          <img src="img/icon/instagram.png" alt="Instagram">
+        <a href="index.html" title="Home" aria-label="Home"><img src="img/icon/home.png" alt=""></a>
+        <a href="menu.html" title="Menu" aria-label="Menu"><img src="img/icon/menu.png" alt=""></a>
+        <a href="https://www.instagram.com/theplasticdining?igsh=MzBzd2l4dTByYmZ6&utm_source=qr" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+          <img src="img/icon/instagram.png" alt="">
         </a>
       </nav>
     </div>
@@ -50,9 +40,8 @@
     <section class="menu-section">
       <h2 class="section-title en">SALAD</h2>
       <div class="menu-grid">
-        <!-- 1 -->
         <article class="menu-card">
-          <a class="thumb" href="detail/salad-1.html">
+          <a class="thumb" href="#" data-detail="salad_salmon_info.png">
             <img src="img/menu/salad_salmon.png" alt="포장찌꺼기 연어 샐러드">
           </a>
           <div class="meta">
@@ -62,9 +51,9 @@
             <div class="price">110,000</div>
           </div>
         </article>
-        <!-- 2 -->
+
         <article class="menu-card">
-          <a class="thumb" href="detail/salad-2.html">
+          <a class="thumb" href="#" data-detail="salad_gardenbag_info.png">
             <img src="img/menu/salad_gardenbag.png" alt="쓰레기봉지 가든 샐러드">
           </a>
           <div class="meta">
@@ -82,7 +71,7 @@
       <h2 class="section-title en">PASTA</h2>
       <div class="menu-grid">
         <article class="menu-card">
-          <a class="thumb" href="detail/pasta-1.html">
+          <a class="thumb" href="#" data-detail="pasta_straw_vongole_info.png">
             <img src="img/menu/pasta_straw_vongole.png" alt="빨대 봉골레 파스타">
           </a>
           <div class="meta">
@@ -94,7 +83,7 @@
         </article>
 
         <article class="menu-card">
-          <a class="thumb" href="detail/pasta-2.html">
+          <a class="thumb" href="#" data-detail="pasta_tomato_straw_info.png">
             <img src="img/menu/pasta_tomato_straw_basil.png" alt="토맛토 빨대 바질 파스타">
           </a>
           <div class="meta">
@@ -112,7 +101,7 @@
       <h2 class="section-title en">PIZZA</h2>
       <div class="menu-grid">
         <article class="menu-card">
-          <a class="thumb" href="detail/pizza-1.html">
+          <a class="thumb" href="#" data-detail="pizza_cap_pepperoni_info.png">
             <img src="img/menu/pizza_cap_pepperoni.png" alt="폐뚜껑 페퍼로니 피자">
           </a>
           <div class="meta">
@@ -124,13 +113,13 @@
         </article>
 
         <article class="menu-card">
-          <a class="thumb" href="detail/pizza-2.html">
+          <a class="thumb" href="#">
             <img src="img/menu/pizza_cap_combo.png" alt="병뚜껑 루꼴라 콤비네이션 피자">
           </a>
           <div class="meta">
             <p class="en small">Plastic Bottle Cap Combination</p>
             <h3 class="name">병뚜껑 루꼴라 콤비네이션 피자</h3>
-            <p class="desc">신선한 루꼄라와 컬러풀한 병뚜껑의 콤비네이션</p>
+            <p class="desc">신선한 루꼴라와 컬러풀한 병뚜껑의 콤비네이션</p>
             <div class="price">234,000</div>
           </div>
         </article>
@@ -142,7 +131,7 @@
       <h2 class="section-title en">STEAK</h2>
       <div class="menu-grid">
         <article class="menu-card">
-          <a class="thumb" href="detail/steak-1.html">
+          <a class="thumb" href="#">
             <img src="img/menu/steak_landfill_cube.png" alt="매립지 불향 큐브 스테이크">
           </a>
           <div class="meta">
@@ -154,7 +143,7 @@
         </article>
 
         <article class="menu-card">
-          <a class="thumb" href="detail/steak-2.html">
+          <a class="thumb" href="#">
             <img src="img/menu/steak_trashcan_aged.png" alt="배달 숙성 용기 스테이크">
           </a>
           <div class="meta">
@@ -167,5 +156,132 @@
       </div>
     </section>
   </main>
+
+  <!-- 상세 모달(1) -->
+  <div class="modal" id="menuModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__scrim" data-close="scrim"></div>
+    <div class="modal__panel" role="document">
+      <div class="modal__body">
+        <img class="modal__img" id="modalImg" src="" alt="메뉴 상세 정보 이미지">
+        <a class="order-btn" id="orderLink" href="#">주문하기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 주문 모달(2) -->
+  <div class="modal modal--order" id="orderModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__scrim" data-close="orderscrim"></div>
+    <div class="order__panel" role="document">
+      <div class="order__head">
+        <div class="order__title">주문내역 <small style="opacity:.6;">테이블A1</small></div>
+        <div class="order__date" id="ordDate">2050년 12월 10일</div>
+      </div>
+
+      <div class="order__body">
+        <div class="order__grid-head"><div>메뉴</div><div>수량</div><div>가격</div></div>
+
+        <div class="order__item">
+          <div class="order__menu">
+            <img class="order__thumb" id="ordThumb" src="" alt="">
+            <div class="order__name" id="ordName"></div>
+          </div>
+          <div class="order__qty" id="ordQty">1</div>
+          <div class="order__price" id="ordPrice"></div>
+        </div>
+      </div>
+
+      <div class="order__foot">
+        <a href="#" class="order-pay" id="payBtn">결제하기</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const modal = document.getElementById('menuModal');
+    const modalImg = document.getElementById('modalImg');
+    const orderModal = document.getElementById('orderModal');
+    const ordThumb = document.getElementById('ordThumb');
+    const ordName  = document.getElementById('ordName');
+    const ordQty   = document.getElementById('ordQty');
+    const ordPrice = document.getElementById('ordPrice');
+    const payBtn   = document.getElementById('payBtn');
+
+    let current = { name:'', price:'', thumb:'', detail:'' };
+
+    // 카드 클릭 → 상세 모달
+    document.addEventListener('click', (e)=>{
+      const a = e.target.closest('a.thumb');
+      if(!a) return;
+      e.preventDefault();
+
+      const card = a.closest('.menu-card');
+      current.name  = card.querySelector('.name')?.textContent.trim() || '';
+      current.price = card.querySelector('.price')?.textContent.trim() || '';
+      current.thumb = a.querySelector('img')?.getAttribute('src') || '';
+      current.detail= a.dataset.detail || '';
+
+      modalImg.src = 'img/detail/' + current.detail;
+      openDetail();
+    });
+
+    // 상세 모달 → 주문 모달
+    document.getElementById('orderLink').addEventListener('click', (e)=>{
+      e.preventDefault();
+
+      // 선택 항목 주입 (날짜는 고정 요구사항)
+      document.getElementById('ordDate').textContent = '2050년 12월 10일';
+      ordThumb.src = current.thumb;
+      ordName.textContent = current.name;
+      ordQty.textContent = '1';
+      ordPrice.textContent = current.price;
+
+      closeDetail(true);
+      openOrder();
+    });
+
+    // 스크림/ESC 닫기
+    modal.addEventListener('click', (e)=>{ if(e.target.dataset.close==='scrim') closeDetail(); });
+    orderModal.addEventListener('click', (e)=>{ if(e.target.dataset.close==='orderscrim') closeOrder(); });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='Escape'){
+        if(orderModal.classList.contains('is-open')) closeOrder();
+        else if(modal.classList.contains('is-open')) closeDetail();
+      }
+    });
+
+    function openDetail(){
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden','false');
+      document.body.classList.add('modal-open');
+    }
+    function closeDetail(keepBody){
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden','true');
+      if(!keepBody){ document.body.classList.remove('modal-open'); }
+      modalImg.removeAttribute('src');
+    }
+    function openOrder(){
+      orderModal.classList.add('is-open');
+      orderModal.setAttribute('aria-hidden','false');
+      // 상세 모달은 닫았으므로 바디 잠금 유지
+      document.body.classList.add('modal-open');
+    }
+    function closeOrder(){
+      orderModal.classList.remove('is-open');
+      orderModal.setAttribute('aria-hidden','true');
+      document.body.classList.remove('modal-open');
+    }
+
+    // 결제하기 → 영수증 페이지로 이동
+    payBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const src  = current.thumb || '';
+      const file = src.split('/').pop() || '';          // e.g. salad_gardenbag.png
+      const key  = file.replace(/\.(png|jpe?g|webp)$/i,''); // salad_gardenbag
+      location.href = `receipt.html?item=${encodeURIComponent(key)}`;
+    });
+  })();
+  </script>
 </body>
 </html>
