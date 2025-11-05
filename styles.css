@@ -213,7 +213,7 @@ body.modal-open{ overflow:hidden; }
 .order__qty, .order__price{ text-align:center; font-weight:700; }
 .order__body{ padding:12px 0 0; }  /* 좌우 패딩 제거 */
 .order__grid-head, .order__item{ padding:12px 14px; } /* 내부 여백은 각 행에 부여 */
-.order__item{ border-bottom:2px solid #ec2024; }      /* 이 경우엔 border 그대로 써도 끝까지 감 */
+.order__item{ border-bottom:1px solid #ec2024; }      /* 이 경우엔 border 그대로 써도 끝까지 감 */
 
 
 /* 하단 버튼 */
@@ -222,4 +222,5 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
