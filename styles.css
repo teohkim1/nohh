@@ -1,226 +1,101 @@
-/* ========== Base ========== */
-* { box-sizing: border-box; }
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>결제 완료 | The Plastic Dining</title>
+  <style>
+    html, body { height: 100% }
+    body {
+      margin: 0;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: #000; /* 로딩/폴백 */
+    }
 
-:root{
-  --bg:#F7F6F2;
-  --ink:#b6403e;
-  --text:#222;
-  --max:1300px; /* 전체 최대 가로폭 */
-  --left:50%;   /* 왼쪽 패널 비율 */
-}
+    /* 배경 이미지 */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: #000 center/cover no-repeat;
+      filter: blur(1px) brightness(.85);
+      transform: scale(1.02);
+      z-index: 0;
+    }
 
-html,body{
-  height:100%;
-  font-family:"Pretendard Variable", Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
-}
-body{
-  margin:0;
-  color:var(--text);
-  background:#fff;
-}
+    /* 홈 버튼(우상단) */
+    .home-btn{
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      z-index: 2;
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 10px;
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(2px);
+    }
+    .home-btn img{
+      width: 34px; height: 34px; display: block;
+      filter: invert(1) brightness(.9);
+    }
 
-/* ========== Top Right Nav (아이콘) ========== */
-.topnav{
-  position:fixed;
-  top:18px;
-  z-index:20;
-  display:flex;
-  gap:14px;
-  right:calc((100vw - min(100vw,var(--max))) / 2 + 24px);
-}
-.topnav img{
-  width:35px; height:35px; display:block;
-  filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));
-}
-.topnav a:hover img{ opacity:.9; }
+    /* 중앙에 영수증 */
+    .stage{
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 100vw; height: 100vh;
+      pointer-events: none; /* 배경 클릭 방지, 홈버튼은 별도 z-index라 클릭됨 */
+    }
+    .receipt{
+      max-width: 340px;   /* 데스크톱 크기 */
+      width: 54vw;        /* 반응형 */
+      height: auto;
+      display: block;
+      box-shadow: 0 10px 40px rgba(0,0,0,.55);
+      border-radius: 2px;
+      user-select: none; -webkit-user-drag: none;
+    }
+    @media (max-width:480px){
+      .receipt{ width: 82vw; max-width: 430px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" id="bg"></div>
 
-/* ========== Layout (2열 + 하단푸터) ========== */
-.wrap{
-  width:min(100vw,var(--max));
-  margin:0 auto;
-  min-height:100vh;
-  display:grid;
-  grid-template-columns:var(--left) calc(100% - var(--left));
-  grid-template-rows:1fr auto;
-}
-.panel{ position:relative; }
+  <!-- 홈 버튼 -->
+  <a href="index.html" class="home-btn" aria-label="홈으로 이동" title="Home">
+    <img src="img/icon/home.png" alt="">
+  </a>
 
-.left{
-  background:var(--bg);
-  padding:120px 44px 28px 72px;
-  border-right:1px solid #e3ddd5;
-  display:flex; flex-direction:column; gap:20px; align-items:center;
-}
-.right{ background:#000; }
+  <div class="stage">
+    <img id="receiptImg" class="receipt" src="" alt="결제 영수증">
+  </div>
 
-/* ========== Logos & Text ========== */
-.logos{ display:flex; align-items:flex-end; gap:18px; justify-content:center; }
-.wordmark{ height:92px; width:auto; display:block; margin-inline:auto; }
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const item = params.get('item') || 'salad_gardenbag';
 
-.copy{
-  max-width:620px; width:100%;
-  margin:20px auto 0;
-  text-align:center; line-height:1.9;
-  font-size:11px; font-weight:500;
-}
-.copy p{ margin:14px 0 28px; font-weight:700; }
+      // 경로
+      const BG_PATH = 'img/receipt/receipt_background.png';
+      const RC_PATH = `img/receipt/${item}_receipt.png`;
 
-/* 설명 아래 마스코트 */
-.mascot{ display:flex; justify-content:center; }
-.mascot img{ width:140px; height:auto; display:block; margin-inline:auto; opacity:.95; }
+      // 배경
+      document.getElementById('bg').style.backgroundImage = `url('${BG_PATH}')`;
 
-/* ========== 하단 전체 푸터 (좌/중/우 정렬) ========== */
-.site-foot{
-  grid-column:1 / -1; grid-row:2;
-  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px;
-  color:#ec2024; border-top:1px solid var(--ink);
-  padding:12px 16px; background:transparent; font-size:14px;
-  font-family:"Libre Bodoni","Black Han Sans",Georgia,"Times New Roman",serif!important;
-  font-weight:500; letter-spacing:-1px; font-variant-numeric:oldstyle-nums proportional-nums;
-}
-.site-foot span:nth-child(1){ justify-self:start; text-align:left; }
-.site-foot span:nth-child(2){ justify-self:center; text-align:center; }
-.site-foot span:nth-child(3){ justify-self:end; text-align:right; }
-
-/* ========== Hero Slides (크로스페이드) ========== */
-.slides{ position:absolute; inset:0; overflow:hidden; }
-.slide{ position:absolute; inset:0; opacity:0; margin:0; will-change:opacity; }
-.slide img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
-@keyframes crossfade{
-  0%{opacity:0} 10%{opacity:1} 45%{opacity:1} 55%{opacity:0} 100%{opacity:0}
-}
-.slide:nth-child(1){ animation:crossfade 10s linear infinite; animation-delay:0s; }
-.slide:nth-child(2){ animation:crossfade 10s linear infinite; animation-delay:5s; }
-@media (prefers-reduced-motion:reduce){
-  .slide{ animation:none!important; }
-  .slide:nth-child(1){ opacity:1; }
-}
-
-/* ========== Responsive ========== */
-@media (max-width:980px){
-  .wrap{ width:100%; grid-template-columns:1fr; grid-template-rows:auto auto; }
-  .right{ order:-1; height:52vh; }
-  .left{ padding:32px 22px; }
-  .wordmark{ height:72px; }
-  .site-foot{ padding:10px 12px; gap:12px; }
-  .topnav{ right:16px; }
-}
-
-/* =========================
-   MENU PAGE (menu.html) 전용
-   ========================= */
-.menu-wrap{
-  width:min(100vw,1300px);
-  margin:0 auto;
-  padding:20px 20px 80px;
-  background:#F7F6F2;
-}
-.top-rail{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:3px 0 2px; background:transparent;
-}
-.logo-float img{ height:65px; width:auto; display:block; }
-.icons-float{ display:flex; gap:14px; align-items:center; filter:invert(1) brightness(.55) contrast(1.1); }
-.icons-float img{ width:35px; height:35px; display:block; }
-
-.en{ font-family:"Libre Bodoni","Black Han Sans",Georgia,"Times New Roman",serif!important; letter-spacing:.04em; }
-.section-title{ text-align:center; font-size:clamp(28px,4vw,40px); color:#ec2024; margin:6px 0 35px; }
-
-.menu-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; margin-bottom:64px; }
-@media (max-width:880px){ .menu-grid{ grid-template-columns:1fr; } }
-
-.menu-card{ background:transparent; border:0; box-shadow:none; }
-.menu-card .thumb{
-  display:block; background:#F7F6F2; border:1px solid rgba(0,0,0,.06);
-  border-radius:18px; overflow:hidden;
-}
-.menu-card .thumb img{ width:100%; height:auto; display:block; transition:transform .4s ease; }
-.menu-card:hover .thumb img{ transform:scale(1.02); }
-
-.menu-card .meta{
-  display:grid; grid-template-columns:1fr auto;
-  grid-template-areas:"en en" "name price" "desc desc";
-  column-gap:12px; row-gap:6px; padding:12px 2px 0; color:#ec2024;
-}
-.menu-card .en.small{ grid-area:en; }
-.menu-card .name{ margin:0; grid-column:1; font-size:20px; }
-.menu-card .price{ margin:0; grid-column:2; text-align:right; font-size:20px; }
-.menu-card .desc{ grid-area:desc; margin:0 0 10px; color:#ec2024; font-size:13px; line-height:1.6; }
-.menu-card .thumb img{ aspect-ratio:4/3; object-fit:cover; }
-
-/* ===== 상세 모달(1) ===== */
-.modal{ position:fixed; inset:0; z-index:1000; display:none; }
-.modal.is-open{ display:block; }
-.modal__scrim{ position:absolute; inset:0; background:rgba(0,0,0,.65); backdrop-filter:blur(2px); }
-body.modal-open{ overflow:hidden; }
-
-.modal__panel{
-  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-  width:min(94vw, calc(var(--max)/2)); max-height:92vh;
-  background:#fff; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,.35);
-  overflow:hidden; display:grid; grid-template-rows:1fr; /* 본문만 스크롤 */
-}
-.modal__body{ overflow:auto; background:#fff; padding:0 0 20px; }
-.modal__img{ display:block; width:100%; height:auto; }
-.order-btn{
-  display:block; width:calc(100% - 24px); margin:16px auto 6px;
-  text-align:center; font-weight:700; font-size:18px; padding:16px 18px;
-  border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
-}
-
-/* ===== 주문 모달(2) ===== */
-.modal--order{ z-index:1100; display:none; position:fixed; inset:0; }
-.modal--order.is-open{ display:block; }
-.modal--order .modal__scrim{ position:absolute; inset:0; background:rgba(0,0,0,.45); }
-
-.order__panel{
-  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-  width:min(94vw, calc(var(--max)/2), calc(92vh * 4 / 3)); /* 가로 */
-  aspect-ratio:4/3; max-height:92vh;
-  background:#fff; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,.35);
-  overflow:hidden; display:grid; grid-template-rows:auto 1fr auto;
-}
-
-/* 헤더 */
-.order__head{
-  display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center;
-  padding:22px 18px 16px; font-weight:600; color:#222;
-  border-bottom:1px solid #ec2024; /* 맨 아래 빨간줄 */
-}
-.order__title{ font-size:16px; }
-.order__date{ font-size:14px; opacity:.7; }
-
-/* 목록 */
-.order__body{
-  overflow:auto; padding:12px 14px 0;
-  -ms-overflow-style:none; scrollbar-width:none;
-}
-.order__body::-webkit-scrollbar{ width:0; height:0; }
-
-.order__grid-head{
-  display:grid; grid-template-columns:1fr 100px 80px;
-  align-items:center; padding:12px 10px; color:#222; font-weight:500; font-size:14px;
-}
-
-.order__item{
-  display:grid; grid-template-columns:1fr 115px 100px;
-  align-items:center; gap:10px; padding:14px 10px;
-  border-bottom:1px solid #ec2024; font-weight:500;
-}
-.order__menu{ display:flex; align-items:center; gap:12px; min-width:0; }
-.order__thumb{ width:42px; height:42px; border-radius:8px; object-fit:cover; flex:0 0 42px; }
-.order__name{ font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.order__qty, .order__price{ text-align:center; font-weight:700; }
-.order__body{ padding:12px 0 0; }  /* 좌우 패딩 제거 */
-.order__grid-head, .order__item{ padding:12px 14px; } /* 내부 여백은 각 행에 부여 */
-.order__item{ border-bottom:1px solid #ec2024; }      /* 이 경우엔 border 그대로 써도 끝까지 감 */
-
-
-/* 하단 버튼 */
-.order__foot{ padding:14px 16px 18px; background:#fff; border-top:1px solid rgba(0,0,0,.06); }
-.order-pay{
-  display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
-  padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
-}
-
-
+      // 영수증 (없으면 가든샐러드 폴백)
+      const receipt = document.getElementById('receiptImg');
+      receipt.src = RC_PATH;
+      receipt.onerror = function () {
+        this.onerror = null;
+        this.src = 'img/receipt/salad_gardenbag_receipt.png';
+      };
+    })();
+  </script>
+</body>
+</html>
