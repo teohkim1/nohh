@@ -1,102 +1,101 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>결제 완료 | The Plastic Dining</title>
-    <style>
-        html, body {
-            height: 100%
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>결제 완료 | The Plastic Dining</title>
+  <style>
+    html, body { height: 100% }
+    body {
+      margin: 0;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: #000; /* 로딩/폴백 */
+    }
 
-        body {
-            margin: 0;
-            overflow: hidden;
-            display: grid;
-            place-items: center;
-            background: #000; /* 로딩/폴백용 */
-        }
+    /* 배경 이미지 */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: #000 center/cover no-repeat;
+      filter: blur(1px) brightness(.85);
+      transform: scale(1.02);
+      z-index: 0;
+    }
 
-        /* ▶ 배경 사진: 반드시 보이게 */
-        .bg {
-            position: fixed;
-            inset: 0;
-            background: #000 center/cover no-repeat;
-            /* 분위기만 살짝 */
-            filter: blur(1px) brightness(.85);
-            transform: scale(1.02);
-            z-index: 0;
-        }
-        <div class="bg" id="bg"></div>
+    /* 홈 버튼(우상단) */
+    .home-btn{
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      z-index: 2;
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 10px;
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(2px);
+    }
+    .home-btn img{
+      width: 34px; height: 34px; display: block;
+      filter: invert(1) brightness(.9);
+    }
 
-<!-- 홈 버튼 -->
-<a href="index.html" class="home-btn" aria-label="홈으로 이동" title="Home">
-  <img src="img/icon/home.png" alt="">
-</a>
-
-<div class="stage">
-  <img id="receiptImg" class="receipt" src="" alt="결제 영수증">
-</div>
-
-
-        /* 중앙에 영수증만 작게 */
-        .stage {
-            position: relative;
-            z-index: 1;
-            display: grid;
-            place-items: center;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none; /* 배경 클릭 막기 */
-        }
-
-        .receipt {
-            max-width: 340px; /* 데스크톱 기준 크기 ↓ */
-            width: 54vw; /* 모바일/태블릿 반응형 */
-            height: auto;
-            display: block;
-            box-shadow: 0 10px 40px rgba(0,0,0,.55);
-            border-radius: 2px;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
-
-        @media (max-width:480px) {
-            .receipt {
-                width: 82vw;
-                max-width: 430px;
-            }
-        }
-    </style>
+    /* 중앙에 영수증 */
+    .stage{
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 100vw; height: 100vh;
+      pointer-events: none; /* 배경 클릭 방지, 홈버튼은 별도 z-index라 클릭됨 */
+    }
+    .receipt{
+      max-width: 340px;   /* 데스크톱 크기 */
+      width: 54vw;        /* 반응형 */
+      height: auto;
+      display: block;
+      box-shadow: 0 10px 40px rgba(0,0,0,.55);
+      border-radius: 2px;
+      user-select: none; -webkit-user-drag: none;
+    }
+    @media (max-width:480px){
+      .receipt{ width: 82vw; max-width: 430px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="bg" id="bg"></div>
+  <div class="bg" id="bg"></div>
 
-    <div class="stage">
-        <img id="receiptImg" class="receipt" src="" alt="결제 영수증">
-    </div>
+  <!-- 홈 버튼 -->
+  <a href="index.html" class="home-btn" aria-label="홈으로 이동" title="Home">
+    <img src="img/icon/home.png" alt="">
+  </a>
 
-    <script>
-        (function () {
-            const params = new URLSearchParams(location.search);
-            const item = params.get('item') || 'salad_gardenbag';
+  <div class="stage">
+    <img id="receiptImg" class="receipt" src="" alt="결제 영수증">
+  </div>
 
-            // 배경 / 영수증 PNG 경로
-            const BG_PATH = 'img/receipt/receipt_background.png';
-            const RC_PATH = `img/receipt/${item}_receipt.png`;
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const item = params.get('item') || 'salad_gardenbag';
 
-            // 배경 보이게 설정
-            document.getElementById('bg').style.backgroundImage = `url('${BG_PATH}')`;
+      // 경로
+      const BG_PATH = 'img/receipt/receipt_background.png';
+      const RC_PATH = `img/receipt/${item}_receipt.png`;
 
-            // 영수증 설정 (없으면 가든샐러드로 폴백)
-            const receipt = document.getElementById('receiptImg');
-            receipt.src = RC_PATH;
-            receipt.onerror = function () {
-                this.onerror = null;
-                this.src = 'img/receipt/salad_gardenbag_receipt.png';
-            };
-        })();
-    </script>
+      // 배경
+      document.getElementById('bg').style.backgroundImage = `url('${BG_PATH}')`;
+
+      // 영수증 (없으면 가든샐러드 폴백)
+      const receipt = document.getElementById('receiptImg');
+      receipt.src = RC_PATH;
+      receipt.onerror = function () {
+        this.onerror = null;
+        this.src = 'img/receipt/salad_gardenbag_receipt.png';
+      };
+    })();
+  </script>
 </body>
 </html>
-
