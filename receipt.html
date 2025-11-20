@@ -48,7 +48,7 @@
       display: grid;
       place-items: center;
       width: 100vw; height: 100vh;
-      pointer-events: none; /* 배경 클릭 방지, 홈버튼은 별도 z-index라 클릭됨 */
+      pointer-events: none;
     }
     .receipt{
       max-width: 340px;   /* 데스크톱 크기 */
@@ -61,6 +61,35 @@
     }
     @media (max-width:480px){
       .receipt{ width: 82vw; max-width: 430px; }
+    }
+
+    /* ===== 인쇄용 스타일 ===== */
+    @media print {
+      html, body {
+        height: auto;
+        background: #fff !important;
+      }
+      body {
+        margin: 0;
+        overflow: visible;
+        display: block;
+        place-items: initial;
+      }
+      .bg,
+      .home-btn {
+        display: none !important; /* 배경, 홈버튼 숨기기 */
+      }
+      .stage {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .receipt {
+        width: 100%;
+        max-width: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
     }
   </style>
 </head>
@@ -81,20 +110,32 @@
       const params = new URLSearchParams(location.search);
       const item = params.get('item') || 'salad_gardenbag';
 
-      // 경로
       const BG_PATH = 'img/receipt/receipt_background.png';
       const RC_PATH = `img/receipt/${item}_receipt.png`;
 
       // 배경
       document.getElementById('bg').style.backgroundImage = `url('${BG_PATH}')`;
 
-      // 영수증 (없으면 가든샐러드 폴백)
+      // 영수증 이미지 세팅
       const receipt = document.getElementById('receiptImg');
       receipt.src = RC_PATH;
       receipt.onerror = function () {
         this.onerror = null;
         this.src = 'img/receipt/salad_gardenbag_receipt.png';
       };
+
+      // 이미지가 로드되면 인쇄창 자동 오픈 (Ctrl+P와 동일)
+      function triggerPrint() {
+        // 살짝 딜레이 주면 렌더링이 안정적
+        setTimeout(() => window.print(), 200);
+      }
+
+      receipt.addEventListener('load', triggerPrint);
+
+      // 캐시된 이미지로 이미 로드 완료 상태일 수도 있어서 한 번 더 확인
+      if (receipt.complete) {
+        triggerPrint();
+      }
     })();
   </script>
 </body>
