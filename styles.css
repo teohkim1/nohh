@@ -22,10 +22,10 @@ body{
 /* ========== Top Right Nav (아이콘) ========== */
 .topnav{
   position:fixed;
-  top:18px;
+  top:35px;
   z-index:20;
   display:flex;
-  gap:40px;
+  gap:35px;
   right:calc((100vw - min(100vw,var(--max))) / 2 + 24px);
 }
 .topnav img{
@@ -252,6 +252,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
