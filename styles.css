@@ -61,13 +61,13 @@ body{
   max-width:620px; width:100%;
   margin:30px auto 0;
   text-align:center; line-height:1.9;
-  font-size:12px; font-weight:500;
+  font-size:14px; font-weight:500;
 }
 .copy p{ margin:14px 0 28px; font-weight:700; }
 
 /* 설명 아래 마스코트 */
 .mascot{ display:flex; justify-content:center; }
-.mascot img{ width:198px; height:auto; display:block; margin-inline:auto; opacity:.95; }
+.mascot img{ width:235px; height:auto; display:block; margin-inline:auto; opacity:.95; }
 
 /* ========== 하단 전체 푸터 (좌/중/우 정렬) ========== */
 .site-foot{
@@ -222,6 +222,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
