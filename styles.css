@@ -193,9 +193,18 @@ body.modal-open{ overflow:hidden; }
 .modal__body{ overflow:auto; background:#fff; padding:0 0 20px; }
 .modal__img{ display:block; width:100%; height:auto; }
 .order-btn{
-  display:block; width:calc(100% - 24px); margin:16px auto 6px;
-  text-align:center; font-weight:700; font-size:18px; padding:16px 18px;
-  border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 20px;
+  border-radius:999px;
+  text-decoration:none;
+
+  /* 👉 메뉴 설명이랑 같은 폰트로 맞추기 */
+  font-family:"Pretendard-500", Pretendard, system-ui, -apple-system,
+              "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
+  font-weight:500;
+  letter-spacing:-0.02em; /* 원하면 살짝 자간 좁게 */
 }
 
 /* ===== 주문 모달(2) ===== */
@@ -252,6 +261,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
