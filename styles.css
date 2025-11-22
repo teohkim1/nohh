@@ -174,7 +174,7 @@ body{
 }
 
 .menu-card .name{ margin:0; grid-column:1; font-size:20px; }
-.menu-card .price{ margin:0; grid-column:2; text-align:right; font-size:20px; }
+.menu-card .price{ margin:0; grid-column:2; text-align:right; font-size:20px; font-weight:100; }
 .menu-card .desc{ grid-area:desc; margin:0 0 10px; color:#ec2024; font-size:13px; line-height:1.6; }
 .menu-card .thumb img{ aspect-ratio:4/3; object-fit:cover; }
 
@@ -266,6 +266,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
