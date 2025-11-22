@@ -263,12 +263,14 @@ body.modal-open{ overflow:hidden; }
 /* 하단 버튼 */
 .order__foot{ padding:14px 16px 18px; background:#fff; border-top:1px solid rgba(0,0,0,.06); }
 .order-pay{
-  display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
-  padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
+  display:block; width:calc(100% - 24px); margin:16px auto 6px;
+  text-align:center; font-weight:500; font-size:18px; padding:16px 18px;
+  border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
   font-family:"Pretendard-500", Pretendard, system-ui, -apple-system,
               "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
   letter-spacing:-0.02em; /* 원하면 살짝 자간 좁게 */
 }
+
 
 
 
