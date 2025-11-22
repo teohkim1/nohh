@@ -287,6 +287,10 @@
       if(!a) return;
       e.preventDefault();
 
+      const detail = a.dataset.detail;
+      if (!detail) return;
+
+
       const card = a.closest('.menu-card');
       current.name  = card.querySelector('.name')?.textContent.trim() || '';
       current.price = card.querySelector('.price')?.textContent.trim() || '';
@@ -358,6 +362,7 @@
   </script>
 </body>
 </html>
+
 
 
 
