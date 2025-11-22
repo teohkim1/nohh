@@ -70,17 +70,46 @@ body{
 .mascot img{ width:235px; height:auto; display:block; margin-inline:auto; opacity:.95; }
 
 /* ========== 하단 전체 푸터 (좌/중/우 정렬) ========== */
+/* === 푸터 + 티커 통합 스타일 === */
 .site-foot{
-  grid-column:1 / -1; grid-row:2;
-  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px;
-  color:#ec2024; border-top:1px solid var(--ink);
-  padding:12px 16px; background:transparent; font-size:14px;
+  grid-column:1 / -1;    /* wrap 그리드에서 가로 전체 차지 */
+  grid-row:2;
+  position: relative;
+
+  padding:12px 16px;
+  background:#faf4ee;
+  border-top:1px solid var(--ink);
+
+  color:#ec2024;
+  font-size:12px;
   font-family:"Libre Bodoni","Black Han Sans",Georgia,"Times New Roman",serif!important;
-  font-weight:500; letter-spacing:-1px; font-variant-numeric:oldstyle-nums proportional-nums;
+  font-weight:500;
+  letter-spacing:-1px;
+  font-variant-numeric:oldstyle-nums proportional-nums;
+
+  display:block;         /* 핵심: grid 레이아웃 끄기 */
 }
-.site-foot span:nth-child(1){ justify-self:start; text-align:left; }
-.site-foot span:nth-child(2){ justify-self:center; text-align:center; }
-.site-foot span:nth-child(3){ justify-self:end; text-align:right; }
+
+.ticker{
+  width:100%;            /* 핵심: 푸터 전체폭 사용 */
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+.ticker-track{
+  display:inline-flex;
+  gap:2rem;
+  padding-left:100%;      /* 화면 밖에서 시작 */
+  will-change:transform;
+  animation:ticker-scroll var(--ticker-duration, 30s) linear infinite;
+}
+
+@keyframes ticker-scroll{
+  0%{   transform: translateX(0); }
+  100%{ transform: translateX(-50%); }
+}
+
+
 
 /* ========== Hero Slides (크로스페이드) ========== */
 .slides{ position:absolute; inset:0; overflow:hidden; }
@@ -223,37 +252,7 @@ body.modal-open{ overflow:hidden; }
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
 
-/* === 푸터 티커 === */
-.site-foot{
-  position: relative;
-  padding: 10px 0;
-  background: #faf4ee;
-  border-top: 1px solid #e0d3c5;
-  font-size: 12px;
-}
 
-.ticker{
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.ticker-track{
-  display: inline-flex;
-  gap: 2rem;
-  padding-left: 100%;          /* 화면 밖에서 시작 */
-  will-change: transform;
-  animation: ticker-scroll var(--ticker-duration, 30s) linear infinite;
-}
-
-/* 실제 스크롤 애니메이션 */
-@keyframes ticker-scroll{
-  0%{
-    transform: translateX(0);
-  }
-  100%{
-    transform: translateX(-50%);  /* 전체 내용의 절반만큼 이동(두 번 복사해둘 거라서) */
-  }
-}
 
 
 
