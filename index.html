@@ -90,8 +90,32 @@
     </footer>
 
   </main>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const track = document.querySelector('.ticker-track');
+    if (!track) return;
+  
+    // 1) 내용 두 번 붙여서 끊김 없이 반복되게 만들기
+    track.innerHTML = track.innerHTML + track.innerHTML;
+  
+    // 2) 내용 길이에 따라 애니메이션 시간을 계산해서 "속도 일정"하게 만들기
+    function updateDuration() {
+      const speed = 60; // px per second (원하는 속도. 숫자 줄이면 빨라짐)
+      // 전체 길이의 절반(=원본 한 번 분량)
+      const singleWidth = track.scrollWidth / 2;
+      const duration = singleWidth / speed; // 초 단위
+      track.style.setProperty('--ticker-duration', duration + 's');
+    }
+  
+    // 처음 한 번 + 리사이즈할 때마다 다시 계산
+    window.addEventListener('load', updateDuration);
+    window.addEventListener('resize', updateDuration);
+  });
+  </script>
+
 </body>
 </html>
+
 
 
 
