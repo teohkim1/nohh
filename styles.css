@@ -5,7 +5,7 @@
   --bg:#F7F6F2;
   --ink:#b6403e;
   --text:#222;
-  --max:1300px; /* 전체 최대 가로폭 */
+  --max:1366px; /* 전체 최대 가로폭 */
   --left:50%;   /* 왼쪽 패널 비율 */
 }
 
@@ -252,6 +252,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
