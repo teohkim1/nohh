@@ -178,6 +178,15 @@ body{
 .menu-card .desc{ grid-area:desc; margin:0 0 10px; color:#ec2024; font-size:13px; line-height:1.6; }
 .menu-card .thumb img{ aspect-ratio:4/3; object-fit:cover; }
 
+.menu-card .en.small,
+.menu-card .name,
+.menu-card .price,
+.menu-card .desc{
+  font-family:"Pretendard-500", Pretendard, system-ui, -apple-system,
+              "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+
 /* ===== 상세 모달(1) ===== */
 .modal{ position:fixed; inset:0; z-index:1000; display:none; }
 .modal.is-open{ display:block; }
@@ -261,6 +270,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
