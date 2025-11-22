@@ -265,7 +265,11 @@ body.modal-open{ overflow:hidden; }
 .order-pay{
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
+  font-family:"Pretendard-500", Pretendard, system-ui, -apple-system,
+              "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
+  letter-spacing:-0.02em; /* 원하면 살짝 자간 좁게 */
 }
+
 
 
 
