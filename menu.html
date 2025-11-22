@@ -198,8 +198,46 @@
       </div>
     </div>
   </div>
+  
 
   <script>
+  (function(){
+    const HOME_URL   = 'index.html';          // 돌아갈 페이지
+    const INACTIVE_MS = 30 * 60 * 1000;       // 30분 (ms)
+
+    let timerId;
+
+    function resetInactivityTimer() {
+      // 이전 타이머 삭제
+      if (timerId) clearTimeout(timerId);
+
+      // 새 타이머 설정
+      timerId = setTimeout(function(){
+        // 30분 동안 아무 이벤트 없었을 때 실행
+        window.location.href = HOME_URL;
+      }, INACTIVE_MS);
+    }
+
+    // 유저 활동 이벤트들
+    const events = [
+      'mousemove',
+      'mousedown',
+      'keydown',
+      'scroll',
+      'touchstart',
+      'click'
+    ];
+
+    events.forEach(function(ev){
+      window.addEventListener(ev, resetInactivityTimer, { passive: true });
+    });
+
+    // 페이지 처음 열렸을 때도 타이머 시작
+    window.addEventListener('load', resetInactivityTimer);
+  })();
+
+
+  
   (function(){
     const modal = document.getElementById('menuModal');
     const modalImg = document.getElementById('modalImg');
@@ -285,8 +323,10 @@
       location.href = `receipt.html?item=${encodeURIComponent(key)}`;
     });
   })();
+    
   </script>
 </body>
 </html>
+
 
 
