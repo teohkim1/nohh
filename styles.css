@@ -81,7 +81,7 @@ body{
   border-top:1px solid var(--ink);
 
   color:#ec2024;
-  font-size:12px;
+  font-size:20px;
   font-family:"Libre Bodoni","Black Han Sans",Georgia,"Times New Roman",serif!important;
   font-weight:500;
   letter-spacing:-1px;
@@ -251,6 +251,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
