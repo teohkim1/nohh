@@ -153,7 +153,7 @@ body{
 .icons-float{ display:flex; gap:35px; align-items:center; filter:invert(1) brightness(.55) contrast(1.1); }
 .icons-float img{ width:auto; height:35px; display:block; }
 
-.en{ font-family:"Libre Bodoni","Black Han Sans",Georgia,"Times New Roman",serif!important; letter-spacing:.04em; }
+.section-title.en{ font-family:"Libre Bodoni","Black Han Sans",Georgia,"Times New Roman",serif!important; letter-spacing:.04em; }
 .section-title{ text-align:center; font-size:clamp(28px,4vw,40px); color:#ec2024; margin: 55px 0 35px; }
 
 .menu-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; margin-bottom:64px; }
@@ -172,7 +172,7 @@ body{
   grid-template-areas:"en en" "name price" "desc desc";
   column-gap:12px; row-gap:6px; padding:12px 2px 0; color:#ec2024;
 }
-.menu-card .en.small{ font-family:"Pretendard-500", ... !important; }
+
 .menu-card .name{ margin:0; grid-column:1; font-size:20px; }
 .menu-card .price{ margin:0; grid-column:2; text-align:right; font-size:20px; }
 .menu-card .desc{ grid-area:desc; margin:0 0 10px; color:#ec2024; font-size:13px; line-height:1.6; }
@@ -266,6 +266,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
