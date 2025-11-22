@@ -172,7 +172,7 @@ body{
   grid-template-areas:"en en" "name price" "desc desc";
   column-gap:12px; row-gap:6px; padding:12px 2px 0; color:#ec2024;
 }
-.menu-card .en.small{ grid-area:en; }
+.menu-card .en.small{ font-family:"Pretendard-500", ... !important; }
 .menu-card .name{ margin:0; grid-column:1; font-size:20px; }
 .menu-card .price{ margin:0; grid-column:2; text-align:right; font-size:20px; }
 .menu-card .desc{ grid-area:desc; margin:0 0 10px; color:#ec2024; font-size:13px; line-height:1.6; }
@@ -202,17 +202,13 @@ body.modal-open{ overflow:hidden; }
 .modal__body{ overflow:auto; background:#fff; padding:0 0 20px; }
 .modal__img{ display:block; width:100%; height:auto; }
 .order-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 20px;
-  border-radius:999px;
-  text-decoration:none;
+  display:block; width:calc(100% - 24px); margin:16px auto 6px;
+  text-align:center; font-weight:500; font-size:18px; padding:16px 18px;
+  border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 
   /* 👉 메뉴 설명이랑 같은 폰트로 맞추기 */
   font-family:"Pretendard-500", Pretendard, system-ui, -apple-system,
               "Segoe UI", Roboto, "Noto Sans KR", "Malgun Gothic", sans-serif;
-  font-weight:500;
   letter-spacing:-0.02em; /* 원하면 살짝 자간 좁게 */
 }
 
@@ -270,6 +266,7 @@ body.modal-open{ overflow:hidden; }
   display:block; width:100%; text-align:center; font-weight:700; font-size:18px;
   padding:16px 18px; border-radius:999px; background:#ec2024; color:#fff; text-decoration:none;
 }
+
 
 
 
