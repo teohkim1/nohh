@@ -4,9 +4,10 @@
   <meta charset="utf-8" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>결제 완료 | The Plastic Dining</title>
+
   <style>
     html, body { height: 100% }
     body {
@@ -14,10 +15,9 @@
       overflow: hidden;
       display: grid;
       place-items: center;
-      background: #000; /* 로딩/폴백 */
+      background: #000;
     }
 
-    /* 배경 이미지 */
     .bg {
       position: fixed;
       inset: 0;
@@ -27,12 +27,11 @@
       z-index: 0;
     }
 
-    /* 홈 버튼(우상단) */
     .home-btn{
       position: fixed;
       top: 18px;
       right: 22px;
-      z-index: 2;
+      z-index: 3;
       display: inline-flex;
       padding: 6px;
       border-radius: 10px;
@@ -44,107 +43,84 @@
       filter: invert(1) brightness(.9);
     }
 
-    /* 중앙에 영수증 */
     .stage{
       position: relative;
       z-index: 1;
       display: grid;
       place-items: center;
-      width: 100vw; height: 100vh;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
     }
+
     .receipt{
-      max-width: 340px;   /* 데스크톱 크기 */
-      width: 54vw;        /* 반응형 */
+      max-width: 340px;
+      width: 54vw;
       height: auto;
       display: block;
       box-shadow: 0 10px 40px rgba(0,0,0,.55);
       border-radius: 2px;
       user-select: none; -webkit-user-drag: none;
     }
+
     @media (max-width:480px){
       .receipt{ width: 82vw; max-width: 430px; }
     }
 
-    /* ===== 인쇄용 스타일 ===== */
-    @media print {
-      html, body {
-        height: auto;
-        background: #fff !important;
-      }
-      body {
-        margin: 0;
-        overflow: visible;
-        display: block;
-        place-items: initial;
-      }
-      .bg,
-      .home-btn {
-        display: none !important; /* 배경, 홈버튼 숨기기 */
-      }
-      .stage {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
-      .receipt {
-        width: 100%;
-        max-width: none;
-        box-shadow: none;
-        border-radius: 0;
-      }
+    /* 프린트 버튼 */
+    #printBtn {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 14px 22px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.85);
+      font-size: 17px;
+      font-weight: 600;
+      z-index: 5;
+      border: none;
     }
   </style>
+
+  <!-- html2canvas 사용 -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 </head>
+
 <body>
   <div class="bg" id="bg"></div>
 
-  <!-- 홈 버튼 -->
   <a href="index.html" class="home-btn" aria-label="홈으로 이동" title="Home">
     <img src="img/icon/home.png" alt="">
   </a>
 
+  <button id="printBtn">영수증 프린트하기</button>
+
   <div class="stage">
-    <img id="receiptImg" class="receipt" src="" alt="결제 영수증">
+    <img id="receiptImg" class="receipt" src="">
   </div>
 
+  <!-- 30분 자동 홈 이동 -->
   <script>
-  (function(){
-    const HOME_URL   = 'index.html';          // 돌아갈 페이지
-    const INACTIVE_MS = 30 * 60 * 1000;       // 30분 (ms)
+    (function(){
+      const HOME_URL   = 'index.html';
+      const INACTIVE_MS = 30 * 60 * 1000;
 
-    let timerId;
+      let timerId;
 
-    function resetInactivityTimer() {
-      // 이전 타이머 삭제
-      if (timerId) clearTimeout(timerId);
+      function resetInactivityTimer() {
+        if (timerId) clearTimeout(timerId);
+        timerId = setTimeout(() => window.location.href = HOME_URL, INACTIVE_MS);
+      }
 
-      // 새 타이머 설정
-      timerId = setTimeout(function(){
-        // 30분 동안 아무 이벤트 없었을 때 실행
-        window.location.href = HOME_URL;
-      }, INACTIVE_MS);
-    }
-
-    // 유저 활동 이벤트들
-    const events = [
-      'mousemove',
-      'mousedown',
-      'keydown',
-      'scroll',
-      'touchstart',
-      'click'
-    ];
-
-    events.forEach(function(ev){
-      window.addEventListener(ev, resetInactivityTimer, { passive: true });
-    });
-
-    // 페이지 처음 열렸을 때도 타이머 시작
-    window.addEventListener('load', resetInactivityTimer);
-  })();
+      const events = ['mousemove','mousedown','keydown','scroll','touchstart','click'];
+      events.forEach(ev => window.addEventListener(ev, resetInactivityTimer));
+      window.addEventListener('load', resetInactivityTimer);
+    })();
   </script>
 
+  <!-- 이미지 로드 + Bluetooth 프린트 -->
   <script>
     (function () {
       const params = new URLSearchParams(location.search);
@@ -153,32 +129,70 @@
       const BG_PATH = 'img/receipt/receipt_background.png';
       const RC_PATH = `img/receipt/${item}_receipt.png`;
 
-      // 배경
       document.getElementById('bg').style.backgroundImage = `url('${BG_PATH}')`;
 
-      // 영수증 이미지 세팅
       const receipt = document.getElementById('receiptImg');
       receipt.src = RC_PATH;
+
       receipt.onerror = function () {
         this.onerror = null;
         this.src = 'img/receipt/salad_gardenbag_receipt.png';
       };
-
-      // 이미지가 로드되면 인쇄창 자동 오픈 (Ctrl+P와 동일)
-      function triggerPrint() {
-        // 살짝 딜레이 주면 렌더링이 안정적
-        setTimeout(() => window.print(), 200);
-      }
-
-      receipt.addEventListener('load', triggerPrint);
-
-      // 캐시된 이미지로 이미 로드 완료 상태일 수도 있어서 한 번 더 확인
-      if (receipt.complete) {
-        triggerPrint();
-      }
     })();
+  </script>
+
+  <!-- Web Bluetooth + ESC/POS 출력 -->
+  <script>
+    async function connectPrinter() {
+      const device = await navigator.bluetooth.requestDevice({
+        filters: [{ namePrefix: "SPP" }],
+        optionalServices: [0x18F0]
+      });
+
+      const server = await device.gatt.connect();
+      const service = await server.getPrimaryService(0x18F0);
+      const characteristic = await service.getCharacteristic(0x2AF1);
+      return characteristic;
+    }
+
+    function canvasToEscPos(canvas) {
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      const imgData = ctx.getImageData(0, 0, width, height).data;
+
+      let bytes = [];
+      bytes.push(0x1D, 0x76, 0x30, 0x00);
+      bytes.push(width & 0xFF, (width >> 8) & 0xFF);
+      bytes.push(height & 0xFF, (height >> 8) & 0xFF);
+
+      for (let i = 0; i < imgData.length; i += 4) {
+        const avg = (imgData[i] + imgData[i+1] + imgData[i+2]) / 3;
+        bytes.push(avg < 128 ? 0 : 1);
+      }
+      return new Uint8Array(bytes);
+    }
+
+    async function printReceipt() {
+      const receiptEl = document.getElementById("receiptImg");
+      if (!receiptEl.complete) {
+        alert("영수증 이미지 로딩 중입니다. 잠시 후 다시 시도하세요.");
+        return;
+      }
+
+      const canvas = await html2canvas(receiptEl);
+      const escposData = canvasToEscPos(canvas);
+
+      const printer = await connectPrinter();
+
+      for (let i = 0; i < escposData.length; i += 180) {
+        await printer.writeValue(escposData.slice(i, i+180));
+      }
+
+      alert("프린트 완료!");
+    }
+
+    document.getElementById("printBtn").addEventListener("click", printReceipt);
   </script>
 </body>
 </html>
-
-
