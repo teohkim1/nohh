@@ -149,49 +149,42 @@
   </script>
 
   <!-- iOS 앱으로 프린트 요청 보내는 부분 -->
-    <!-- iOS 앱으로 프린트 요청 보내는 부분 (디버그 버전) -->
-  <script>
-    function printReceipt() {
-      const params = new URLSearchParams(location.search);
-      const item = params.get('item') || 'salad_gardenbag';
-
-      // 1단계: 버튼 클릭 자체가 되는지
-      alert('버튼 클릭 됨\nitem = ' + item);
-
-      // iOS WKWebView 안에서만 동작
-      if (window.webkit &&
-          window.webkit.messageHandlers &&
-          window.webkit.messageHandlers.printReceipt) {
-
-        const payload = {
-          item: item,
-          url: location.href,
-          time: new Date().toISOString()
-        };
-
-        try {
-          window.webkit.messageHandlers.printReceipt.postMessage(payload);
-          alert('iOS로 프린트 요청 보냄 ✅');
-        } catch (e) {
-          alert('postMessage 중 에러 발생❌\n' + e);
-        }
-      } else {
-        alert('iOS WebView 브릿지 없음\n(사파리에서 연 건지 확인)');
-      }
+  <!-- iOS 앱으로 프린트 요청 보내는 최소 테스트 -->
+<script>
+  function printReceiptTest() {
+    // 1) 버튼 텍스트를 눈에 띄게 바꿈
+    const btn = document.getElementById('printBtn');
+    if (btn) {
+      btn.textContent = '눌림 ✅';
+      btn.style.background = '#ffeb3b';
     }
 
-    // DOM이 다 그려진 뒤에 버튼에 이벤트 연결
-    document.addEventListener('DOMContentLoaded', function () {
-      const btn = document.getElementById('printBtn');
-      if (btn) {
-        btn.addEventListener('click', printReceipt);
-      } else {
-        alert('printBtn 못찾음 😢');
-      }
-    });
-  </script>
+    // 2) 배경 색도 바꿔 보기
+    document.body.style.background = '#222';
+
+    // 3) iOS 브릿지가 있으면 간단한 테스트 메세지 전송
+    if (window.webkit &&
+        window.webkit.messageHandlers &&
+        window.webkit.messageHandlers.printReceipt) {
+
+      window.webkit.messageHandlers.printReceipt.postMessage({
+        item: 'test-click'
+      });
+    }
+  }
+
+  // DOM 다 그려진 뒤에 버튼에 연결
+  document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('printBtn');
+    if (btn) {
+      btn.addEventListener('click', printReceiptTest);
+    }
+  });
+</script>
+
 
  
 </body>
 </html>
+
 
