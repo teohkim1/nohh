@@ -149,10 +149,14 @@
   </script>
 
   <!-- iOS 앱으로 프린트 요청 보내는 부분 -->
+    <!-- iOS 앱으로 프린트 요청 보내는 부분 (디버그 버전) -->
   <script>
     function printReceipt() {
       const params = new URLSearchParams(location.search);
       const item = params.get('item') || 'salad_gardenbag';
+
+      // 1단계: 버튼 클릭 자체가 되는지
+      alert('버튼 클릭 됨\nitem = ' + item);
 
       // iOS WKWebView 안에서만 동작
       if (window.webkit &&
@@ -160,20 +164,34 @@
           window.webkit.messageHandlers.printReceipt) {
 
         const payload = {
-          item: item,          // 예: "salad_gardenbag"
-          url: location.href,  // 현재 영수증 페이지 URL
+          item: item,
+          url: location.href,
           time: new Date().toISOString()
         };
 
-        window.webkit.messageHandlers.printReceipt.postMessage(payload);
-        return;
+        try {
+          window.webkit.messageHandlers.printReceipt.postMessage(payload);
+          alert('iOS로 프린트 요청 보냄 ✅');
+        } catch (e) {
+          alert('postMessage 중 에러 발생❌\n' + e);
+        }
+      } else {
+        alert('iOS WebView 브릿지 없음\n(사파리에서 연 건지 확인)');
       }
-
-      // 일반 브라우저일 때는 안내만
-      alert('이 브라우저에서는 직접 프린트가 지원되지 않습니다.\niOS 앱에서 사용해 주세요.');
     }
 
-    document.getElementById("printBtn").addEventListener("click", printReceipt);
+    // DOM이 다 그려진 뒤에 버튼에 이벤트 연결
+    document.addEventListener('DOMContentLoaded', function () {
+      const btn = document.getElementById('printBtn');
+      if (btn) {
+        btn.addEventListener('click', printReceipt);
+      } else {
+        alert('printBtn 못찾음 😢');
+      }
+    });
   </script>
+
+ 
 </body>
 </html>
+
