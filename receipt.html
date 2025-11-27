@@ -149,42 +149,54 @@
   </script>
 
   <!-- iOS 앱으로 프린트 요청 보내는 부분 -->
-  <!-- iOS 앱으로 프린트 요청 보내는 최소 테스트 -->
+  <!-- iOS 앱으로 프린트 요청 보내는 실제 버전 -->
 <script>
-  function printReceiptTest() {
-    // 1) 버튼 텍스트를 눈에 띄게 바꿈
+  function printReceipt() {
+    const params = new URLSearchParams(location.search);
+    const item = params.get('item') || 'salad_gardenbag';
+
+    // 0) 눈에 보이는 피드백 (버튼 색/텍스트 변경)
     const btn = document.getElementById('printBtn');
     if (btn) {
-      btn.textContent = '눌림 ✅';
+      btn.textContent = '프린트 요청 보냄...';
       btn.style.background = '#ffeb3b';
     }
 
-    // 2) 배경 색도 바꿔 보기
-    document.body.style.background = '#222';
-
-    // 3) iOS 브릿지가 있으면 간단한 테스트 메세지 전송
+    // 1) iOS WKWebView 안인지 확인
     if (window.webkit &&
         window.webkit.messageHandlers &&
         window.webkit.messageHandlers.printReceipt) {
 
-      window.webkit.messageHandlers.printReceipt.postMessage({
-        item: 'test-click'
-      });
+      const payload = {
+        item: item,          // 예: "salad_gardenbag"
+        url: location.href,  // 현재 영수증 페이지 URL
+        time: new Date().toISOString()
+      };
+
+      // iOS 네이티브(WebView.swift) 쪽으로 전송
+      window.webkit.messageHandlers.printReceipt.postMessage(payload);
+      return;
     }
+
+    // 2) (백업) WKWebView가 아니면 안내
+    alert('이 브라우저에서는 직접 프린트가 지원되지 않습니다.\niOS 앱에서 사용해 주세요.');
   }
 
-  // DOM 다 그려진 뒤에 버튼에 연결
+  // DOM 다 그려진 뒤에 버튼에 이벤트 연결
   document.addEventListener('DOMContentLoaded', function () {
     const btn = document.getElementById('printBtn');
     if (btn) {
-      btn.addEventListener('click', printReceiptTest);
+      btn.addEventListener('click', printReceipt);
     }
   });
 </script>
+
+ 
 
 
  
 </body>
 </html>
+
 
 
