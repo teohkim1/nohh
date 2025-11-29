@@ -140,3 +140,25 @@
       // 실제 영수증 이미지
       const receipt = document.getElementById('receiptImg');
       receipt.src = RC_PATH;
+
+      // 로딩 실패 시 기본 영수증으로 폴백
+      receipt.onerror = function () {
+        this.onerror = null;
+        this.src = 'img/receipt/salad_gardenbag_receipt.png';
+      };
+    })();
+  </script>
+
+  <!-- 프린트 버튼 (지금은 단순 alert만) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const btn = document.getElementById('printBtn');
+      if (!btn) return;
+
+      btn.addEventListener('click', function () {
+        alert('여기 나중에 BLE 프린트 코드 들어갈 자리!');
+      });
+    });
+  </script>
+</body>
+</html>
