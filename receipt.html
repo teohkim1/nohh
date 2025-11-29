@@ -86,9 +86,6 @@
       border: none;
     }
   </style>
-
-  <!-- html2canvas 사용 (이미지 캡처용) -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -151,67 +148,45 @@
     })();
   </script>
 
-  <!-- Web Bluetooth + ESC/POS 출력 -->
+  <!-- iOS 앱으로 프린트 요청 보내는 부분 -->
   <script>
-    // 프린터 연결 (BLE)
-    async function connectPrinter() {
-      const device = await navigator.bluetooth.requestDevice({
-        filters: [{ namePrefix: "SPP" }],      // 프린터 이름 패턴
-        optionalServices: [0x18F0]             // 커스텀 서비스 UUID (예시)
-      });
+    function printReceipt() {
+      const params = new URLSearchParams(location.search);
+      const item = params.get('item') || 'salad_gardenbag';
 
-      const server = await device.gatt.connect();
-      const service = await server.getPrimaryService(0x18F0);
-      const characteristic = await service.getCharacteristic(0x2AF1);
-      return characteristic;
-    }
-
-    // canvas → ESC/POS 데이터 변환 (아주 단순화된 예시)
-    function canvasToEscPos(canvas) {
-      const ctx = canvas.getContext("2d");
-      const width = canvas.width;
-      const height = canvas.height;
-      const imgData = ctx.getImageData(0, 0, width, height).data;
-
-      let bytes = [];
-      // 비트이미지 명령 (매우 단순 버전, 실제와 다를 수 있음)
-      bytes.push(0x1D, 0x76, 0x30, 0x00);
-      bytes.push(width & 0xFF, (width >> 8) & 0xFF);
-      bytes.push(height & 0xFF, (height >> 8) & 0xFF);
-
-      for (let i = 0; i < imgData.length; i += 4) {
-        const avg = (imgData[i] + imgData[i+1] + imgData[i+2]) / 3;
-        bytes.push(avg < 128 ? 0 : 1);
+      // 버튼 상태로 피드백
+      const btn = document.getElementById('printBtn');
+      if (btn) {
+        btn.textContent = '프린트 요청 보냄...';
+        btn.style.background = '#ffeb3b';
       }
-      return new Uint8Array(bytes);
-    }
 
-    // 프린트 실행
-    async function printReceipt() {
-      const receiptEl = document.getElementById("receiptImg");
-      if (!receiptEl.complete) {
-        alert("영수증 이미지 로딩 중입니다. 잠시 후 다시 시도하세요.");
+      // iOS WKWebView 안에서만 동작
+      if (window.webkit &&
+          window.webkit.messageHandlers &&
+          window.webkit.messageHandlers.printReceipt) {
+
+        const payload = {
+          item: item,              // 예: "salad_salmon"
+          url: location.href,
+          time: new Date().toISOString()
+        };
+
+        window.webkit.messageHandlers.printReceipt.postMessage(payload);
         return;
       }
 
-      // 1) 이미지 → 캔버스
-      const canvas = await html2canvas(receiptEl);
-
-      // 2) ESC/POS 바이트로 변환
-      const escposData = canvasToEscPos(canvas);
-
-      // 3) 프린터 연결
-      const printer = await connectPrinter();
-
-      // 4) 조각내서 전송 (BLE 패킷 크기 고려)
-      for (let i = 0; i < escposData.length; i += 180) {
-        await printer.writeValue(escposData.slice(i, i + 180));
-      }
-
-      alert("프린트 완료!");
+      // (사파리 같은 일반 브라우저일 때)
+      alert('이 브라우저에서는 직접 프린트가 지원되지 않습니다.\niOS 앱에서 사용해 주세요.');
     }
 
-    document.getElementById("printBtn").addEventListener("click", printReceipt);
+    // DOM 준비되면 버튼에 이벤트 연결
+    document.addEventListener('DOMContentLoaded', function () {
+      const btn = document.getElementById('printBtn');
+      if (btn) {
+        btn.addEventListener('click', printReceipt);
+      }
+    });
   </script>
 </body>
 </html>
