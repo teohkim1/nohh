@@ -1,1 +1,142 @@
-<!doctype html> <html lang="ko"> <head> <meta charset="utf-8" /> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <meta name="viewport" content="width=device-width, initial-scale=1" /> <title>결제 완료 | The Plastic Dining</title> <style> html, body { height: 100% } body { margin: 0; overflow: hidden; display: grid; place-items: center; background: #000; /* 로딩/폴백 */ } /* 배경 이미지 */ .bg { position: fixed; inset: 0; background: #000 center/cover no-repeat; filter: blur(1px) brightness(.85); transform: scale(1.02); z-index: 0; } /* 홈 버튼(우상단) */ .home-btn{ position: fixed; top: 18px; right: 22px; z-index: 3; display: inline-flex; padding: 6px; border-radius: 10px; background: rgba(0,0,0,.35); backdrop-filter: blur(2px); } .home-btn img{ width: 34px; height: 34px; display: block; filter: invert(1) brightness(.9); } /* 가운데 영수증 영역 */ .stage{ position: relative; z-index: 1; display: grid; place-items: center; width: 100vw; height: 100vh; pointer-events: none; } .receipt{ max-width: 340px; width: 54vw; height: auto; display: block; box-shadow: 0 10px 40px rgba(0,0,0,.55); border-radius: 2px; user-select: none; -webkit-user-drag: none; } @media (max-width:480px){ .receipt{ width: 82vw; max-width: 430px; } } /* 프린트 버튼 */ #printBtn { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 14px 22px; border-radius: 12px; background: rgba(255,255,255,0.85); font-size: 17px; font-weight: 600; z-index: 5; border: none; } </style> <!-- html2canvas 사용 (이미지 캡처용) --> <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script> </head> <body> <!-- 흐릿한 배경 --> <div class="bg" id="bg"></div> <!-- 홈으로 --> <a href="index.html" class="home-btn" aria-label="홈으로 이동" title="Home"> <img src="img/icon/home.png" alt=""> </a> <!-- 프린트 버튼 --> <button id="printBtn">영수증 프린트하기</button> <!-- 중앙 영수증 이미지 --> <div class="stage"> <img id="receiptImg" class="receipt" src=""> </div> <!-- 30분 자동 홈 이동 --> <script> (function(){ const HOME_URL = 'index.html'; const INACTIVE_MS = 30 * 60 * 1000; // 30분 let timerId; function resetInactivityTimer() { if (timerId) clearTimeout(timerId); timerId = setTimeout(() => window.location.href = HOME_URL, INACTIVE_MS); } const events = ['mousemove','mousedown','keydown','scroll','touchstart','click']; events.forEach(ev => window.addEventListener(ev, resetInactivityTimer)); window.addEventListener('load', resetInactivityTimer); })(); </script> <!-- 아이템별 영수증 이미지 로드 --> <script> (function () { const params = new URLSearchParams(location.search); const item = params.get('item') || 'salad_gardenbag'; const BG_PATH = 'img/receipt/receipt_background.png'; const RC_PATH = img/receipt/${item}_receipt.png; // 배경 이미지 설정 document.getElementById('bg').style.backgroundImage = url('${BG_PATH}'); // 실제 영수증 이미지 const receipt = document.getElementById('receiptImg'); receipt.src = RC_PATH; // 로딩 실패 시 기본 영수증으로 폴백 receipt.onerror = function () { this.onerror = null; this.src = 'img/receipt/salad_gardenbag_receipt.png'; }; })(); </script> <!-- Web Bluetooth + ESC/POS 출력 --> <script> // 프린터 연결 (BLE) async function connectPrinter() { const device = await navigator.bluetooth.requestDevice({ filters: [{ namePrefix: "SPP" }], // 프린터 이름 패턴 optionalServices: [0x18F0] // 커스텀 서비스 UUID (예시) }); const server = await device.gatt.connect(); const service = await server.getPrimaryService(0x18F0); const characteristic = await service.getCharacteristic(0x2AF1); return characteristic; } // canvas → ESC/POS 데이터 변환 (아주 단순화된 예시) function canvasToEscPos(canvas) { const ctx = canvas.getContext("2d"); const width = canvas.width; const height = canvas.height; const imgData = ctx.getImageData(0, 0, width, height).data; let bytes = []; // 비트이미지 명령 (매우 단순 버전, 실제와 다를 수 있음) bytes.push(0x1D, 0x76, 0x30, 0x00); bytes.push(width & 0xFF, (width >> 8) & 0xFF); bytes.push(height & 0xFF, (height >> 8) & 0xFF); for (let i = 0; i < imgData.length; i += 4) { const avg = (imgData[i] + imgData[i+1] + imgData[i+2]) / 3; bytes.push(avg < 128 ? 0 : 1); } return new Uint8Array(bytes); } // 프린트 실행 async function printReceipt() { const receiptEl = document.getElementById("receiptImg"); if (!receiptEl.complete) { alert("영수증 이미지 로딩 중입니다. 잠시 후 다시 시도하세요."); return; } // 1) 이미지 → 캔버스 const canvas = await html2canvas(receiptEl); // 2) ESC/POS 바이트로 변환 const escposData = canvasToEscPos(canvas); // 3) 프린터 연결 const printer = await connectPrinter(); // 4) 조각내서 전송 (BLE 패킷 크기 고려) for (let i = 0; i < escposData.length; i += 180) { await printer.writeValue(escposData.slice(i, i + 180)); } alert("프린트 완료!"); } document.getElementById("printBtn").addEventListener("click", printReceipt); </script> </body> </html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>결제 완료 | The Plastic Dining</title>
+
+  <style>
+    html, body { height: 100% }
+    body {
+      margin: 0;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: #000; /* 로딩/폴백 */
+    }
+
+    /* 배경 이미지 */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: #000 center/cover no-repeat;
+      filter: blur(1px) brightness(.85);
+      transform: scale(1.02);
+      z-index: 0;
+    }
+
+    /* 홈 버튼(우상단) */
+    .home-btn{
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      z-index: 3;
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 10px;
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(2px);
+    }
+    .home-btn img{
+      width: 34px; height: 34px; display: block;
+      filter: invert(1) brightness(.9);
+    }
+
+    /* 가운데 영수증 영역 */
+    .stage{
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+
+    .receipt{
+      max-width: 340px;
+      width: 54vw;
+      height: auto;
+      display: block;
+      box-shadow: 0 10px 40px rgba(0,0,0,.55);
+      border-radius: 2px;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    @media (max-width:480px){
+      .receipt{ width: 82vw; max-width: 430px; }
+    }
+
+    /* 프린트 버튼 */
+    #printBtn {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 14px 22px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.85);
+      font-size: 17px;
+      font-weight: 600;
+      z-index: 5;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 흐릿한 배경 -->
+  <div class="bg" id="bg"></div>
+
+  <!-- 홈으로 -->
+  <a href="index.html" class="home-btn" aria-label="홈으로 이동" title="Home">
+    <img src="img/icon/home.png" alt="">
+  </a>
+
+  <!-- 프린트 버튼 -->
+  <button id="printBtn">영수증 프린트하기</button>
+
+  <!-- 중앙 영수증 이미지 -->
+  <div class="stage">
+    <img id="receiptImg" class="receipt" src="">
+  </div>
+
+  <!-- 30분 자동 홈 이동 -->
+  <script>
+    (function(){
+      const HOME_URL    = 'index.html';
+      const INACTIVE_MS = 30 * 60 * 1000; // 30분
+
+      let timerId;
+
+      function resetInactivityTimer() {
+        if (timerId) clearTimeout(timerId);
+        timerId = setTimeout(() => window.location.href = HOME_URL, INACTIVE_MS);
+      }
+
+      const events = ['mousemove','mousedown','keydown','scroll','touchstart','click'];
+      events.forEach(ev => window.addEventListener(ev, resetInactivityTimer));
+      window.addEventListener('load', resetInactivityTimer);
+    })();
+  </script>
+
+  <!-- 아이템별 영수증 이미지 로드 -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const item = params.get('item') || 'salad_gardenbag';
+
+      const BG_PATH = 'img/receipt/receipt_background.png';
+      const RC_PATH = `img/receipt/${item}_receipt.png`;
+
+      // 배경 이미지 설정
+      document.getElementById('bg').style.backgroundImage = `url('${BG_PATH}')`;
+
+      // 실제 영수증 이미지
+      const receipt = document.getElementById('receiptImg');
+      receipt.src = RC_PATH;
