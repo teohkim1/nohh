@@ -156,9 +156,126 @@
       if (!btn) return;
 
       btn.addEventListener('click', function () {
-        alert('여기 나중에 BLE 프린트 코드 들어갈 자리!');
+          <!-- 프린트 버튼 (BLE/Web Bluetooth) -->
+  <script>
+    // ===== 프린터 설정 (여기 3개는 네 프린터에 맞게 수정해야 함) =====
+    const PRINTER_NAME_PREFIX  = 'BIXOLON';  // 또는 'L310' 등 프린터 이름 앞부분
+    const PRINTER_SERVICE_UUID = '000018f0-0000-1000-8000-00805f9b34fb'; // 예시 UUID
+    const PRINTER_CHAR_UUID    = '00002af1-0000-1000-8000-00805f9b34fb'; // 예시 UUID
+
+    // ESC/POS 텍스트 영수증 만들기
+    function buildReceiptText(item) {
+      const ESC_INIT         = '\x1B\x40';     // 프린터 초기화
+      const ESC_ALIGN_LEFT   = '\x1B\x61\x00'; // 왼쪽 정렬
+      const ESC_ALIGN_CENTER = '\x1B\x61\x01'; // 가운데 정렬
+      const ESC_CUT_FULL     = '\x1D\x56\x00'; // 전체 컷(프린터에 따라 동작 다를 수 있음)
+
+      const now = new Date();
+      const timeStr = now.toLocaleString();
+
+      const header =
+        ESC_INIT +
+        ESC_ALIGN_CENTER +
+        '*** THE PLASTIC DINING ***\n\n';
+
+      const body =
+        ESC_ALIGN_LEFT +
+        'ITEM : ' + item + '\n' +
+        'TIME : ' + timeStr + '\n' +
+        '\n';
+
+      const footer =
+        ESC_ALIGN_CENTER +
+        '\nTHANK YOU!\n\n\n' +
+        ESC_CUT_FULL;
+
+      return header + body + footer;
+    }
+
+    // BLE로 데이터 전송할 때 너무 길면 나눠서 보내기 위한 헬퍼
+    async function writeInChunks(characteristic, data, chunkSize = 180) {
+      for (let i = 0; i < data.byteLength; i += chunkSize) {
+        const chunk = data.slice(i, i + chunkSize);
+        await characteristic.writeValue(chunk);
+      }
+    }
+
+    async function printViaBLE() {
+      const btn = document.getElementById('printBtn');
+
+      // 버튼 상태 업데이트
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = '프린터 연결 중...';
+        btn.style.background = '#ffeb3b';
+      }
+
+      // 브라우저 지원 여부 체크
+      if (!navigator.bluetooth) {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = '영수증 프린트하기';
+          btn.style.background = 'rgba(255,255,255,0.85)';
+        }
+        alert('이 브라우저는 Web Bluetooth(BLE)를 지원하지 않습니다.');
+        return;
+      }
+
+      try {
+        // URL 파라미터에서 item 읽기
+        const params = new URLSearchParams(location.search);
+        const item = params.get('item') || 'salad_gardenbag';
+
+        // 1) 프린터 선택
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ namePrefix: PRINTER_NAME_PREFIX }],
+          optionalServices: [PRINTER_SERVICE_UUID]
+        });
+
+        // 2) GATT 서버 연결
+        const server = await device.gatt.connect();
+
+        // 3) 서비스 / 캐릭터리스틱 가져오기
+        const service = await server.getPrimaryService(PRINTER_SERVICE_UUID);
+        const characteristic = await service.getCharacteristic(PRINTER_CHAR_UUID);
+
+        // 4) 영수증 텍스트 → 바이트 배열
+        const text = buildReceiptText(item);
+        const encoder = new TextEncoder();
+        const data = encoder.encode(text);
+
+        // 5) 청크 단위로 쓰기
+        await writeInChunks(characteristic, data);
+
+        if (btn) {
+          btn.textContent = '프린트 완료';
+          btn.style.background = '#8bc34a';
+        }
+
+      } catch (err) {
+        console.error('BLE 프린트 에러:', err);
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = '영수증 프린트하기';
+          btn.style.background = 'rgba(255,255,255,0.85)';
+        }
+        alert('BLE 프린터 연결/프린트에 실패했습니다.\n' + err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const btn = document.getElementById('printBtn');
+      if (!btn) return;
+
+      btn.addEventListener('click', function () {
+        printViaBLE();
+      });
+    });
+  </script>
+
       });
     });
   </script>
 </body>
 </html>
+
